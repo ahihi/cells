@@ -1,0 +1,66 @@
+<?xml version="1.0"?> 
+<project name="CA" default="all" basedir="."> 
+    <property name="srcdir" value="src"/>
+    <property name="builddir" value="build"/>
+    <property name="docsdir" value="docs"/>
+    
+    <target name="all" depends="main,jar,docs,test">
+    </target>
+    
+    <target name="main" depends="main-init,cellularautomaton,utils,gui">
+        <echo>Building main</echo>
+        <javac srcdir="${srcdir}" destdir="${builddir}"/> 
+    </target>
+     
+    <target name="main-init">
+        <echo>(Re)creating build directory</echo>
+        <delete dir="${builddir}"/>
+        <mkdir dir="${builddir}"/>
+    </target>
+     
+    <target name="cellularautomaton" depends="utils">
+        <echo>Building cellularautomaton</echo>
+        <javac srcdir="${srcdir}/cellularautomaton" destdir="${builddir}"/>
+    </target>
+    
+    <target name="utils">
+        <echo>Building utils</echo>
+        <javac srcdir="${srcdir}/utils" destdir="${builddir}"/>
+    </target>
+    
+    <target name="gui" depends="utils,cellularautomaton">
+        <echo>Building gui</echo>
+        <javac srcdir="${srcdir}/gui" destdir="${builddir}"/>
+    </target>
+    
+    <target name="jar" depends="main">
+        <echo>Creating JAR</echo>
+        <jar destfile="${builddir}/Cells.jar" basedir="${builddir}" >
+            <manifest>
+                <attribute name="Main-Class" value="gui.Main" />
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="test" depends="utils,cellularautomaton">
+        <echo>Building test</echo>
+        <javac srcdir="${srcdir}/test" destdir="${builddir}"/>
+    </target>
+    
+    <target name="docs" depends="docs-init">
+        <echo>Creating Javadoc documentation</echo>
+        <javadoc destdir="${docsdir}" charset="UTF-8" private="true">
+            <packageset dir="${srcdir}" defaultexcludes="no">
+                <include name="cellularautomaton"/>
+                <include name="gui"/>
+                <include name="utils"/>
+            </packageset>
+        </javadoc>
+    </target>
+    
+    <target name="docs-init">
+        <echo>(Re)creating docs directory</echo>
+        <delete dir="${docsdir}"/>
+        <mkdir dir="${docsdir}"/>
+    </target>
+</project>
