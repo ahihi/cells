@@ -5,4 +5,4 @@ A cellular automaton simulator. My first-year Java programming project (Spring 2
 ## How to use
 
 - Compile the program by issuing `ant` in the top-level directory.
-- Run the compiler JAR file, e.g. by running `java -jar build/Cells.jar`.
+- Run the compiled JAR file, e.g. by running `java -jar build/Cells.jar`.
